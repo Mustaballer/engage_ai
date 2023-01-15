@@ -29,8 +29,9 @@ export function listenForQuestions(setQuestionState) {
     })
 }
 
-export function sendQuestions(studentId, responseLetter) {
-    socket.emit('questions_response', studentId, responseLetter);
+export function sendPoints(studentId, points) {
+    console.log('HSHSHDFHDSFSDF IS THIS GETTING HERE???? ', Math.round(studentId), ' points ', points)
+    socket.emit('user_points', studentId, points);
 }
 
 export default connectToServer;
