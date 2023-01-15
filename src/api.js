@@ -21,4 +21,16 @@ export function sendFullTranscript(transcript) {
     socket.emit('transcript_message', transcript);
 }
 
+export function listenForQuestions(setQuestionState) {
+    socket.on('questions_message', (questions) => {
+        const qJson = JSON.parse(questions);
+        console.log('receieved questions ', questions);
+        setQuestionState(qJson);
+    })
+}
+
+export function sendQuestions(studentId, responseLetter) {
+    socket.emit('questions_response', studentId, responseLetter);
+}
+
 export default connectToServer;
