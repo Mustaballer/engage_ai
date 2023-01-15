@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
 import {Test, QuestionGroup, Question, Option} from 'react-multiple-choice';
 import connectToServer, { listenForQuestions, sendPoints } from "../api";
+import Login from "./Login";
 
 
 const MultipleChoice = () => {
-    const [userId, _] = useState(Math.random() * 100);
+    const [userId, setUserId] = useState(Math.random() * 100);
     const [questionObject, setQuestionObject] = useState([]);
     const [selectedOptions, setSelectedOptions] = useState([]);
+    const [loggedIn, setLoggedIn] = useState(false);
 
     function setOptions(choices) {
         setSelectedOptions(choices);
@@ -35,12 +37,20 @@ const MultipleChoice = () => {
         await connectToServer();
         listenForQuestions(setQuestionObject);
     }
+
+    function triggerAuth(userId) {
+        setUserId(userId);
+        setLoggedIn(true);
+    }
   
     useEffect(() => {
       setupConnection();
     }, []);
   
-    return questionObject.length === 0 ? 'Waiting for questions...' : (
+    if (!loggedIn) {
+        return (<Login authTrigger={triggerAuth}/>);
+    }
+    else return questionObject.length === 0 ? 'Waiting for questions...' : (
       <Test onOptionSelect={setOptions}>
         {questionObject.map((obj, idx) => {
           return (
