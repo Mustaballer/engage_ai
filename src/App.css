@@ -1,38 +1,68 @@
-.App {
+* {
+    background-image: url('img/background.JPG'); /* this will set the background image to background.jpg */
+    background-size: cover; /* this will make the background image cover the entire background */
+}
+
+.button {
+  display: inline-block;
+  padding: 0.5em 1em;
+  margin: 1em;
+  text-decoration: none;
+  border-radius: 4px;
+  -webkit-font-smoothing: antialiased;
+  -webkit-touch-callout: none;
+  user-select: none;
+  cursor: pointer;
+  outline: 0;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-weight: bold;
+  font-size: 25px;
+  border: 2px solid #41ADDD !important;
+  color: #41ADDD !important;
+}
+
+.button:active {
+  background: #41ADDD !important;
+  color: #FFF !important;
+}
+
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100px;
+}
+
+.centerText {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.status {
+  font-size: 20px;
+  font-weight: bold;
+  color: #41ADDD !important;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.title {
+  text-align: center;
+  font-size: 120px;
+  font-weight: bold;
+  /*margin-top: 50px;*/
+  /*user-select: none;*/
+  cursor: pointer;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  /*border: 2px solid #41ADDD;*/
+  color: #41ADDD;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.black-text {
+  text-align: center;
+  padding-top: 15px;
+  margin: 20px auto;
+  font-size: 20px;
+  font-weight: bold;
+  color: black !important;
 }
