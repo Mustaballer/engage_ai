@@ -1,30 +1,43 @@
 import React, { useEffect, useState } from 'react';
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
+import {sendFullTranscript, connectToServer} from './api';
 
 const App = () => {
  const [message, setMessage] = useState('');
- const [enabled, setEnabled] = useState(true);
+ const [disabled, setDisabled] = useState(true);
+
  const commands = [
-   {
-     command: 'reset',
-     callback: () => resetTranscript()
-   },
-   {
-     command: 'shut up',
-     callback: () => setMessage('I wasn\'t talking.')
-   },
-   {
-     command: 'Hello',
-     callback: () => setMessage('Hi there!')
-   },
- ]
+  {
+    command: 'reset',
+    callback: () => resetTranscript()
+  },
+  {
+    command: 'shut up',
+    callback: () => setMessage('I wasn\'t talking.')
+  },
+  {
+    command: 'hello',
+    callback: () => setMessage('Hi there!')
+  },
+]
+
  const {
-   transcript,
-   interimTranscript,
-   finalTranscript,
-   resetTranscript,
-   listening,
- } = useSpeechRecognition({ commands });
+  transcript,
+  interimTranscript,
+  finalTranscript,
+  resetTranscript,
+  listening,
+} = useSpeechRecognition({ commands });
+
+ function sendTranscript() {
+    SpeechRecognition.stopListening();
+    sendFullTranscript(finalTranscript);
+  }
+
+ function resetScript() {
+    resetTranscript();
+    setDisabled(true);
+ }
 
  useEffect(() => {
    if (finalTranscript !== '') {
@@ -39,10 +52,12 @@ const App = () => {
    console.log('Your browser does not support speech recognition software! Try Chrome desktop, maybe?');
  }
  const listenContinuously = () => {
-   SpeechRecognition.startListening({
-     continuous: true,
-     language: 'en-US',
-   });
+  if(disabled) {
+    SpeechRecognition.startListening({
+      continuous: true,
+      language: 'en-US',
+    });
+  }
  };
  return (
    <div>
@@ -53,12 +68,13 @@ const App = () => {
          {listening ? 'on' : 'off'}
        </span>
        <div>
-         <button type="button" disabled={enabled} onClick={resetTranscript}>Reset</button>
+         <button type="button" disabled={disabled} onClick={resetScript}>Reset</button>
          <button type="button" onClick={() => {
-             setEnabled(false);
+             setDisabled(false);
+             connectToServer();
              listenContinuously();
          }}>Start Session</button>
-         <button type="button" disabled={enabled} onClick={SpeechRecognition.stopListening}>Stop</button>
+         <button type="button" disabled={disabled} onClick={sendTranscript}>Stop</button>
        </div>
      </div>
      <div>
